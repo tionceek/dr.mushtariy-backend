@@ -37,3 +37,7 @@ def book():
 @app.route("/", methods=["GET"])
 def home():
     return "Dr. Mushtariy server ishlayapti"
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
+
