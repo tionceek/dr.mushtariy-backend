@@ -1,0 +1,39 @@
+from flask import Flask, request
+import requests
+
+app = Flask(__name__)
+
+# Sizning bot token va chat ID bu yerda
+BOT_TOKEN = "7968385485:AAFsOLySr50dtv3zSMVR_UjwyImMOennQgw"
+CHAT_ID = "6336027050"  # Buni keyingi bosqichda o'rgataman
+
+@app.route("/book", methods=["POST"])
+def book():
+    data = request.get_json()
+    name = data.get("name")
+    phone = data.get("phone")
+    address = data.get("address")
+    date = data.get("date")
+    time = data.get("time")
+
+    text = (
+        f"📅 Yangi bron!\n\n"
+        f"👤 Ism: {name}\n"
+        f"📞 Telefon: {phone}\n"
+        f"🏠 Manzil: {address}\n"
+        f"📆 Sana: {date}\n"
+        f"⏰ Soat: {time}"
+    )
+
+    url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
+    payload = {
+        "chat_id": CHAT_ID,
+        "text": text
+    }
+
+    requests.post(url, json=payload)
+    return "Bron muvaffaqiyatli yuborildi ✅"
+
+@app.route("/", methods=["GET"])
+def home():
+    return "Dr. Mushtariy server ishlayapti"
